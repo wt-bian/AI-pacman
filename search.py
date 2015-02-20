@@ -86,17 +86,55 @@ def depthFirstSearch(problem):
     print "Is the start a goal?", problem.isGoalState(problem.getStartState())
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
-    "*** YOUR CODE HERE ***"
+    closed = []
+    fringe = util.Stack()
+    fringe.push([[problem.getStartState()],[]])
+    while True:
+        if fringe.isEmpty():
+            return []
+        node = fringe.pop()
+        if problem.isGoalState(node[0][-1]):
+            return node[1]
+        if node[0][-1] not in closed:
+            closed.append(node[0][-1])
+            for child_node in problem.getSuccessors(node[0][-1]):
+                fringe.push([node[0] + [child_node[0]], node[1]+[child_node[1]]] )
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+    closed = []
+    fringe = util.Queue()
+    fringe.push([[problem.getStartState()],[]])
+    while True:
+        if fringe.isEmpty():
+            return []
+        node = fringe.pop()
+        if problem.isGoalState(node[0][-1]):
+            return node[1]
+        if node[0][-1] not in closed:
+            closed.append(node[0][-1])
+            for child_node in problem.getSuccessors(node[0][-1]):
+                fringe.push([node[0] + [child_node[0]], node[1]+[child_node[1]]] )
     util.raiseNotDefined()
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
+    closed = []
+    fringe = util.PriorityQueue()
+    fringe.push([[problem.getStartState()],[],0], 0)
+    while True:
+        if fringe.isEmpty():
+            return []
+        node = fringe.pop()
+        if problem.isGoalState(node[0][-1]):
+            return node[1]
+        if node[0][-1] not in closed:
+            closed.append(node[0][-1])
+            for child_node in problem.getSuccessors(node[0][-1]):
+                fringe.push([node[0] + [child_node[0]], node[1]+[child_node[1]], node[2] + child_node[2]],child_node[2]+node[2])
     util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
